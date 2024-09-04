@@ -2,6 +2,12 @@
 
 This repository provide the backend functionality for AI and LLM models that integrates **Pinecone** for vector database search and **OpenAI GPT-3.5-turbo** for generating conversational responses. The service is built with **NestJS** and designed to handle real-time user queries securely and efficiently.
 
+## Project Overview
+
+Check out the video demo of the project:
+
+[![Watch the video](https://res.cloudinary.com/devwm/image/upload/v1725457607/portofolio/website/nm9kmriuttwciufzs4mw.png)](https://res.cloudinary.com/devwm/video/upload/e_accelerate:71/v1725456986/portofolio/website/y6wczrdooxipz6f9zywi.mov)
+
 ## Key Features
 
 - **AI-driven responses**: Leverages OpenAI's GPT-3.5-turbo to generate relevant responses based on user queries.
@@ -51,7 +57,7 @@ To run this project locally, ensure you have the following installed:
 ## Author
 
 🟣 Walber Melo
-![Logo](https://res.cloudinary.com/devwm/image/upload/c_thumb,w_200,g_face/v1723367694/portofolio/website/m2gllhg1bue59xkjaejy.png)
+![Logo](https://res.cloudinary.com/devwm/image/upload/c_thumb,w_50,g_face/v1723367694/portofolio/website/m2gllhg1bue59xkjaejy.png)
 
 ## License
 
