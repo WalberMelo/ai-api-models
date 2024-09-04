@@ -6,7 +6,7 @@ This repository provide the backend functionality for AI and LLM models that int
 
 Check out the video demo of the project:
 
-[![Watch the video](https://res.cloudinary.com/devwm/image/upload/v1725457607/portofolio/website/nm9kmriuttwciufzs4mw.png)](https://res.cloudinary.com/devwm/video/upload/e_accelerate:71/v1725456986/portofolio/website/y6wczrdooxipz6f9zywi.mov)
+[![Chat](https://res.cloudinary.com/devwm/image/upload/v1725457607/portofolio/website/nm9kmriuttwciufzs4mw.png)](https://www.walbermelo.com/)
 
 ## Key Features
 
