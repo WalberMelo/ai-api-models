@@ -51,7 +51,7 @@ To run this project locally, ensure you have the following installed:
 ## Author
 
 🟣 Walber Melo
-![Logo](https://res.cloudinary.com/devwm/image/upload/v1723367694/portofolio/website/m2gllhg1bue59xkjaejy.png)
+![Logo](https://res.cloudinary.com/devwm/image/upload/c_thumb,w_200,g_face/v1723367694/portofolio/website/m2gllhg1bue59xkjaejy.png)
 
 ## License
 
