@@ -9,8 +9,14 @@ async function bootstrap() {
   const domainOrigin = configService.get<string>('DOMAIN_ORIGIN');
 
   app.enableCors({
-    origin: domainOrigin,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    origin: (origin, callback) => {
+      if (!origin || origin === domainOrigin) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    methods: 'GET,POST',
     credentials: true,
   });
   await app.listen(3000);
