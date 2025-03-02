@@ -16,7 +16,7 @@ export class ChatbotService {
 
   async queryVectorDatabase(question: string) {
     try {
-      // Generate embeddings for the question using OpenAI API
+      //1) Generate embeddings of the  question input
       const embeddings = new OpenAIEmbeddings({
         modelName: 'text-embedding-ada-002',
         openAIApiKey: process.env.OPENAI_API_KEY,
@@ -33,7 +33,7 @@ export class ChatbotService {
         includeMetadata: true,
       });
 
-      //🧪 Uncomment bellow fo debug embedding index
+      //🧪 Uncomment for debugging embedding index
       // this.logger.log('Query result:', JSON.stringify(queryResult));
 
       // Extract relevant document content from metadata

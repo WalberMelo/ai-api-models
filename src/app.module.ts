@@ -19,7 +19,7 @@ import { ApiKeyMiddleware } from './middleware/api-key-middleware';
       throttlers: [
         {
           ttl: 60, // Time window for 60 seconds
-          limit: 100, // Max number of requests per ttl user
+          limit: 100, // Max number of requests per user (ttl)
         },
       ],
     }),
