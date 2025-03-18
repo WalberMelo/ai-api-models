@@ -17,15 +17,18 @@ export class PineconeService {
     this.llm = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   }
 
-  async addInvoiceText(invoiceId: string, text: string) {
-    const vector = await this.embeddings.embedQuery(text);
-    await this.pinecone.index('invoices').upsert([
-      {
-        id: invoiceId,
-        values: vector,
-        metadata: { text, invoiceId },
-      },
-    ]);
+  async addInvoices(invoices: { invoiceId: string; text: string }[]) {
+    const vectors = await Promise.all(
+      invoices.map((invoice) => this.embeddings.embedQuery(invoice.text)),
+    );
+
+    const upsertData = invoices.map((invoice, i) => ({
+      id: invoice.invoiceId,
+      values: vectors[i],
+      metadata: { text: invoice.text, invoiceId: invoice.invoiceId },
+    }));
+
+    await this.pinecone.index('invoices').upsert(upsertData);
   }
 
   async searchInvoice(query: string) {

@@ -16,6 +16,11 @@ import * as path from 'path';
 
 import { PineconeService } from 'src/pinecone/pinecone.service';
 
+interface InvoiceI {
+  invoiceId: string;
+  text: string;
+}
+
 @Controller('invoices')
 export class InvoicesController {
   constructor(private readonly pineconeService: PineconeService) {}
@@ -39,20 +44,42 @@ export class InvoicesController {
     }
 
     const filePath = path.resolve('./uploads', file.filename);
-    const invoices = [];
+    const invoices: InvoiceI[] = [];
     let processedCount = 0;
-    const maxRows = 10;
+    const maxRows = 11; // Limit to 10 rows for demo purposes
     let headersSet = false;
     let headers: string[] = [];
 
     return new Promise((resolve, reject) => {
+      let isResolved = false;
+
+      const finalize = async () => {
+        if (isResolved) return;
+
+        isResolved = true;
+        try {
+          await this.pineconeService.addInvoices(invoices);
+          resolve({
+            message: 'Invoices processed successfully.',
+            count: invoices.length,
+          });
+        } catch (error) {
+          reject(error);
+        } finally {
+          try {
+            fs.unlinkSync(filePath);
+          } catch (e) {
+            console.error('Error deleting file:', e);
+          }
+        }
+      };
+
       const stream = fs
         .createReadStream(filePath)
         .pipe(csvParser({ separator: ';', headers: true }))
         .on('data', async (row) => {
           if (processedCount >= maxRows) {
-            stream.destroy();
-
+            stream.destroy(); // Stop reading more rows
             return;
           }
           processedCount++;
@@ -71,25 +98,21 @@ export class InvoicesController {
 
           const generatedId = randomUUID();
           const invoiceText = JSON.stringify(parsedRow);
-          invoices.push(invoiceText);
-
-          try {
-            await this.pineconeService.addInvoiceText(generatedId, invoiceText);
-          } catch (error) {
-            console.error(
-              `Error adding invoice ${row.InvoiceID} to Pinecone:`,
-              error,
-            );
+          invoices.push({ invoiceId: generatedId, text: invoiceText });
+        })
+        .on('end', finalize)
+        .on('close', finalize)
+        .on('error', (error) => {
+          if (!isResolved) {
+            isResolved = true;
+            reject(error);
+            try {
+              fs.unlinkSync(filePath);
+            } catch (e) {
+              console.error('Error deleting file:', e);
+            }
           }
-        })
-        .on('end', () => {
-          resolve({
-            message: 'Invoices processed successfully',
-            count: invoices.length,
-          });
-          fs.unlinkSync(filePath); // Clean up uploaded file after processing
-        })
-        .on('error', reject);
+        });
     });
   }
 
