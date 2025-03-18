@@ -6,7 +6,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { ChatbotModule } from './chatbot/chatbot.module';
+import { InvoicesModule } from './invoices/invoices.module';
 import { ApiKeyMiddleware } from './middleware/api-key-middleware';
+import { PineconeService } from './pinecone/pinecone.service';
 
 @Module({
   imports: [
@@ -23,9 +25,10 @@ import { ApiKeyMiddleware } from './middleware/api-key-middleware';
         },
       ],
     }),
+    InvoicesModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, PineconeService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
